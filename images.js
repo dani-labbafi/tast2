@@ -1,0 +1,3 @@
+// Product photos/renders available in images/. Add a slug here after you put images/<slug>.jpg
+// slug = product name in lowercase, non-letters replaced by '-'
+const PHOTOS = new Set(["magic-drawing-slate-dolly-girl", "kings-choice-giant-tube-matches", "retrospot-heart-hot-water-bottle", "3-stripey-mice-feltcraft", "pack-of-12-london-tissues", "hand-warmer-owl-design", "noel-wooden-block-letters", "aged-glass-silver-t-light-holder", "ribbon-reel-stripes-design", "pink-new-baroquecandlestick-candle", "wood-2-drawer-cabinet-white-finish", "jumbo-bag-pink-vintage-paisley", "assorted-colour-bird-ornament", "set-10-pink-polkadot-party-candles", "set-4-badges-cute-creatures", "set-2-tea-towels-i-love-london"]);
