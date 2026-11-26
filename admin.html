@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - BlueStore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+  <script src="data.js"></script>
+  <script src="shared.js"></script>
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a class="logo" href="index.html">Blue<b>Store</b> <span class="meta">Admin</span></a>
+    <div class="links">
+      <a href="index.html">Store</a><a href="#charts">Charts</a><a href="#insights">Insights</a><a href="#price">Price bands</a><a href="#products">Products</a><a href="#orders">Orders</a>
+    </div>
+  </nav>
+  <main class="wrap">
+    <header class="hero" style="padding-bottom:10px">
+      <h1 style="max-width:none;font-size:clamp(1.8rem,4vw,2.6rem)">Sales &amp; inventory analytics</h1>
+      <p>Everything below is computed from the dataset plus orders placed in this browser. No stock data exists in the dataset, so no stock levels are shown.</p>
+    </header>
+
+    <div class="bar">
+      <select id="fc" aria-label="Country"></select>
+      <input id="from" type="date" aria-label="From date"><input id="to" type="date" aria-label="To date">
+      <label class="meta" title="All original dates look like YYYY-DD-12; swapped they fall in 1-6 Dec 2010"><input type="checkbox" id="dfmt"> Read stored dates as YYYY-DD-MM</label>
+      <button class="btn ghost sm" id="clear" type="button">Reset filters</button>
+      <span class="spacer"></span>
+      <button class="btn ghost sm" id="csv" type="button">Export orders (CSV)</button>
+      <button class="btn ghost sm" id="reset" type="button">Delete store-placed orders</button>
+    </div>
+    <div class="kpis" id="kpis"></div>
+
+    <section id="charts">
+      <h2>Charts</h2>
+      <div class="charts">
+        <div class="panel wide"><h3>Revenue and orders over time</h3><div class="cbox"><canvas id="c1"></canvas></div></div>
+        <div class="panel"><div class="bar" style="margin-bottom:8px"><h3 style="margin:0">Top 10 products</h3><span class="spacer"></span>
+          <select id="tm" aria-label="Metric"><option value="qty">Units</option><option value="revenue">Revenue</option><option value="orderCount">Orders</option></select></div><div class="cbox"><canvas id="c2"></canvas></div></div>
+        <div class="panel"><h3>Revenue by country</h3><div class="cbox"><canvas id="c3"></canvas></div></div>
+        <div class="panel"><h3>Orders by hour of day</h3><div class="cbox"><canvas id="c4"></canvas></div></div>
+        <div class="panel"><h3>Distribution of order values</h3><div class="cbox"><canvas id="c5"></canvas></div></div>
+        <div class="panel wide"><div class="bar" style="margin-bottom:8px"><h3 style="margin:0">Compare two products (units per date)</h3><span class="spacer"></span>
+          <select id="ca" aria-label="Product A"></select><select id="cb" aria-label="Product B"></select></div>
+          <div class="cbox" style="height:240px"><canvas id="c6"></canvas></div><div class="tw" style="margin-top:12px;max-height:none"><table id="cmpT"></table></div></div>
+      </div>
+    </section>
+
+    <section id="insights"><h2>Management insights</h2><p class="sub">Rule-based analysis of the filtered data. Each card states what the data can and cannot support.</p><div class="ins" id="ins"></div></section>
+
+    <section id="price">
+      <h2>Price band analysis</h2>
+      <p class="sub">Default cut points are the quartiles of the real unit-price distribution. Edit them to re-band.</p>
+      <div class="bar"><span class="meta">Cut points ($):</span><input class="sm-in" id="b1" type="number" step="0.05" aria-label="Cut 1"><input class="sm-in" id="b2" type="number" step="0.05" aria-label="Cut 2"><input class="sm-in" id="b3" type="number" step="0.05" aria-label="Cut 3"><button class="btn ghost sm" id="bauto" type="button">Use quartiles</button></div>
+      <div class="two"><div class="tw" style="max-height:none"><table id="bandT"></table></div><div class="panel"><div class="cbox" style="height:230px"><canvas id="c7"></canvas></div></div></div>
+    </section>
+
+    <section id="products">
+      <h2>Products</h2>
+      <div class="bar"><input id="pq" type="search" placeholder="Search..." aria-label="Search products">
+        <input class="sm-in" id="pmin" type="number" min="0" step="0.5" placeholder="Min $"><input class="sm-in" id="pmax" type="number" min="0" step="0.5" placeholder="Max $">
+        <input class="sm-in" id="umin" type="number" min="0" placeholder="Min units"><input class="sm-in" id="umax" type="number" min="0" placeholder="Max units">
+        <span class="meta" id="pcount"></span></div>
+      <div class="tw"><table id="ptable"></table></div>
+      <p class="note">Class A/B/C = ABC analysis by revenue (A: first 80% of revenue, B: next 15%, C: last 5%). Click a column header to sort.</p>
+    </section>
+
+    <section id="orders">
+      <h2>Orders</h2>
+      <div class="bar"><input id="oq" type="search" placeholder="Code, country, customer or product..." aria-label="Filter orders" style="width:100%;max-width:380px"><span class="meta" id="ocount"></span></div>
+      <div class="tw"><table id="otable"></table></div>
+    </section>
+
+    <section id="countries"><h2>Countries</h2><div class="tw"><table id="ctable"></table></div></section>
+  </main>
+  <dialog id="od"></dialog>
+</body>
+</html>
